@@ -101,3 +101,5 @@ ret
 inso endp
 
 end main
+;can than truoc khi chia bx phai xor dx, dx
+; va can than dung cho mov bx, 2 vo vong lap
