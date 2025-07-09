@@ -63,7 +63,7 @@ checknto proc
     cmp dx, 2
     je lasnt
     cmp dx, 1
-    jbe notsnt
+    je notsnt
     
     mov bx, 2
 lap:
