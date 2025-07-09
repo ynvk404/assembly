@@ -1,10 +1,11 @@
 .model small
 .stack 100h
 .data
-    tb1 db "Nhap chuoi : $"   
-    string db 100, 0, 100 dup(0)
+    tb1 db "Nhap vao 1 chuoi : $"
     tb2 db 10, 13, "Tong la : $"
-    sum dw ?
+    tong dw 0
+    string db 100, 0, 100 dup(0)
+
 .code
 main proc
     mov ax, @data
@@ -13,67 +14,70 @@ main proc
     mov ah, 9
     lea dx, tb1
     int 21h
-    
-    mov ah, 0ah
-    lea dx, string
-    int 21h
-    
+
+    call nhap
+
     mov ah, 9
     lea dx, tb2
     int 21h
-    
-    xor cx, cx
-    mov cl, [string + 1]
-    lea si, string + 2
-    xor ax, ax  
-    mov bx, 10
-    mov sum, ax
-duyet: 
-    mov dl, [si]  
-    cmp dl, ' '
-    je tinhtong   
-    
-    mul bx
-    mov dl, [si]
-    xor dh, dh
-    sub dl, '0' 
-    add ax, dx   
-    jmp tiep
-    
-tinhtong:
-    add sum, ax  
-    xor ax, ax     
-tiep:
-    inc si
-    loop duyet 
 
-    add sum, ax
-    
-    mov ax, sum
-    call sothanhchu 
-    
+    mov ax, tong
+    call inso
+
     mov ah, 4ch
     int 21h
-main endp  
+main endp
 
-sothanhchu proc
+nhap proc
+    xor dx, dx      
+    xor cx, cx      
+nhapktra:
+    mov ah, 1
+    int 21h        
+    cmp al, ' '
+    je tinhtong   
+    cmp al, 13
+    je exit         
+
+    sub al, '0'
+    mov cl, al
+    mov ax, dx
     mov bx, 10
+    mul bx
+    add ax, cx
+    mov dx, ax
+    jmp nhapktra
+
+tinhtong:
+    add tong, dx    
+    xor dx, dx      
+    jmp nhapktra
+
+exit:
+    cmp dx, 0
+    je boqua
+    add tong, dx    
+boqua:
+    ret
+nhap endp
+
+inso proc
     xor cx, cx
-chiakq:
+    mov bx, 10
+chia10:
     xor dx, dx
     div bx
     push dx
     inc cx
     cmp ax, 0
-    jne chiakq
-
+    jne chia10
 hienthi:
-    pop dx   
+    pop dx
     add dl, '0'
     mov ah, 2
     int 21h
     loop hienthi
+ret
+inso endp
 
-    ret
-sothanhchu endp
 end main
