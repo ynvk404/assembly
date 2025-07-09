@@ -29,7 +29,7 @@ main proc
     mov bx, 10
     mov sum, ax
 duyet: 
-    mov dx, [si]  
+    mov dl, [si]  
     cmp dl, ' '
     je tinhtong   
     
