@@ -5,8 +5,6 @@
     tb2 db 10, 13, "So luong so nguyen to : $"
     snt dw 0
     string db 100, 0, 100 dup(0)
-    x dw 0
-
 .code
 main proc
     mov ax, @data
@@ -28,6 +26,7 @@ main proc
     mov ah, 4ch
     int 21h
 main endp
+
 nhap proc
     xor dx, dx
     xor cx, cx
@@ -38,6 +37,7 @@ nhapktra:
     je kiemtra
     cmp al, 13
     je exit
+
     sub al, '0'
     mov cl, al
     mov ax, dx
@@ -60,22 +60,20 @@ boqua:
 nhap endp   
 
 checknto proc
-    mov x, dx
-    cmp x, 2
+    cmp dx, 2
     je lasnt
-    cmp x, 1
+    cmp dx, 1
     jbe notsnt
     
     mov bx, 2
-
 lap:
-    mov ax, x
+    mov ax, dx
     xor dx, dx
     div bx
     cmp dx, 0
     je notsnt
     inc bx
-    cmp bx, ax  ;duyet tu bx toi ax
+    cmp bx, ax
     jl lap
 lasnt:
     inc snt
@@ -99,10 +97,7 @@ hienthi:
     add dl, '0'
     int 21h
     loop hienthi
-
-thoat:
 ret  
-
 inso endp
+
 end main
-    
