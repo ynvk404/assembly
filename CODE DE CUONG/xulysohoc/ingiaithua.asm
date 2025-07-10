@@ -75,7 +75,7 @@ in_so proc
     int 21h
     ret
 
-in:
+tieptuc:
     xor cx, cx
 chia:
     xor dx, dx
