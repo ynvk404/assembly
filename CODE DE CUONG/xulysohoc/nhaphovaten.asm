@@ -1,7 +1,7 @@
 .model small
 .stack 100h
 .data
-    maSV db "at190128$"
+    maSV db "at190128"
     tenSV db "Nguyen Van Khai$"      
     tb0 DB "Moi nhap ma sinh vien : $"
     tb1 DB 13, 10, "Khong co ai co ma sinh vien nhu vay!$"
@@ -34,15 +34,13 @@ main proc
     lea di, maSV
     cld
     repe cmpsb
-    je kiemtra
+    je hienthi
 sai:
     mov ah, 9
     lea dx, tb1
     int 21h
     jmp thoat
-kiemtra:
-    cmp [di], '$'
-    jne sai
+hienthi:
     mov ah, 9
     lea dx, tb2
     int 21h
