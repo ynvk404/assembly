@@ -4,8 +4,6 @@
     tb1 db "Nhap vao 1 chuoi : $"
     tb2 db 10, 13, "Tong la : $"
     tong dw 0
-    string db 100, 0, 100 dup(0)
-
 .code
 main proc
     mov ax, @data
