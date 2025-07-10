@@ -2,8 +2,8 @@
 .stack 100h
 .data
     tb1 db "Nhap vao 1 chuoi : $"
-    string db 100, 0, 100 dup(0)  
     tb2 db 10, 13, "So luong la : $"
+    string db 100, 0, 100 dup(0)
 .code
 main proc
     mov ax, @data
@@ -22,35 +22,28 @@ main proc
     int 21h
     
     mov cl, [string + 1]
-    xor ch, ch   
-    call inso
-
+    xor ch, ch  
+    call inso 
+    
     mov ah, 4ch
     int 21h
-main endp
-
+main endp 
 inso proc
     mov ax, cx
     mov bx, 10
-    xor si, si
-
+    xor cx, cx
 chia10:
     xor dx, dx
     div bx
     push dx
-    inc si
+    inc cx
     cmp ax, 0
-    jne chia10
-
-    mov cx, si
-
 hienthi:
     pop dx
     add dl, '0'
     mov ah, 2
     int 21h
     loop hienthi
-    ret
+ret
 inso endp
-
 end main
