@@ -28,9 +28,9 @@ main proc
     mov ah, 3dh
     lea dx, tenfile + 2
     mov al, 0
-    int 21h   
-    
+    int 21h    
     mov thefile, ax
+
     mov ah, 3eh
     mov bx, thefile
     int 21h
