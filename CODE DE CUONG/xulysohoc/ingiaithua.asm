@@ -16,7 +16,6 @@ endm
 main proc
     mov ax, @data
     mov ds, ax
-    mov es, ax
 
     inchuoi msg_nhap
 
