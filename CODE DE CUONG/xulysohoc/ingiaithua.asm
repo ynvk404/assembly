@@ -9,8 +9,8 @@ endm
 .data
     msg_nhap db 'Nhap so n (< 8) = $'
     msg_kq   db 10, 13, 'Ket qua n! = $'
-    b  dw 10
-    num      dw ?
+    b        dw 10
+    n        dw ?     
 .code
 
 main proc
@@ -19,71 +19,79 @@ main proc
 
     inchuoi msg_nhap
 
-    call nhap_num
+    call nhap
+    call giaithua
 
-    call tinh_giai_thua
-
-    inchuoi msg_kq   
-    mov ax, num
-    call in_ket_qua
+    inchuoi msg_kq
+    mov ax, n
+    call in_so
 
     mov ah, 4ch
     int 21h
 main endp
 
-tinh_giai_thua proc
-    mov cx, num    
-    mov ax, 1        
+giaithua proc
+    mov ax, n
+    cmp ax, 0
+    jne tinh
+    mov n, 1       ; 0! = 1
+    ret
 
 tinh:
-    mul cx        
-    dec cx
-    cmp cx, 1
-    jne tinh
-    mov num, ax       
+    mov cx, n
+    mov ax, 1
+lap:
+    mul cx
+    loop lap
+    mov n, ax
     ret
-tinh_giai_thua endp
+giaithua endp
 
-
-nhap_num proc
-    mov num, 0
-
-nhap_lai:
+nhap proc
+    mov n, 0
+doc:
     mov ah, 1
     int 21h
-    cmp al, 13  
-    je ket_thuc_nhap
+    cmp al, 13
+    je xong
     sub al, '0'
     mov bl, al
 
-    mov ax, num
+    mov ax, n
     mul b
     add ax, bx
-    mov num, ax
-    jmp nhap_lai
-
-ket_thuc_nhap:
+    mov n, ax
+    jmp doc
+xong:
     ret
-nhap_num endp
+nhap endp
 
-in_ket_qua proc
+in_so proc
+    cmp ax, 0
+    jne in
+
+    mov dl, '1'
+    mov ah, 2
+    int 21h
+    ret
+
+in:
     xor cx, cx
-
-chia10:
+chia:
     xor dx, dx
     div b
     push dx
     inc cx
     cmp ax, 0
-    jne chia10
+    jne chia
 
-hien_thi:  
-    pop dx   
-    add dx, '0'
+hien:
+    pop dx
+    add dl, '0'
     mov ah, 2
     int 21h
-    loop hien_thi
-
+    loop hien
     ret
-in_ket_qua endp
-end
+in_so endp
+
+end main
