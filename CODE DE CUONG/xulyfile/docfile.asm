@@ -6,6 +6,7 @@
     tb2 db 10, 13, "Noi dung cua file la : $"
     thefile dw ? 
     noidung db 100, 0, 100 dup(0)
+    ;tenfile db "d:/test.txt", 0
 .code
 main proc
     mov ax, @data
