@@ -1,107 +1,103 @@
 .model small
 .stack 100h
 .data
-    tb_nhap db "Nhap vao 1 so (thap phan): $"
-    tb_hex  db 13, 10, "He 16: $"
-    tb_nhi  db 13, 10, "He 2: $"
-    so dw 0
+tb1 db "Nhap vao 1 so : $"
+tb2 db 13, 10, "He 16: $"
+tb3 db 13, 10, "He 2: $"
+so dw 0
 .code
-
 main proc
     mov ax, @data
-    mov ds, ax
-
+    mov ds, ax 
+    
     mov ah, 9
-    lea dx, tb_nhap
+    lea dx, tb1
     int 21h
-
-    call nhap_thap_phan
+    
+    call nhap
     mov so, dx
-
+    
     mov ah, 9
-    lea dx, tb_hex
+    lea dx, tb2
     int 21h
-
+    
     mov ax, so
-    call xuat_he_16
-
+    call inso16
+    
     mov ah, 9
-    lea dx, tb_nhi
+    lea dx, tb3
     int 21h
-
+    
     mov ax, so
-    call xuat_he_2
-
+    call inso2
+    
     mov ah, 4ch
     int 21h
 main endp
 
-nhap_thap_phan proc
+nhap proc 
+    xor cx, cx
     xor dx, dx
-    mov bx, 10
-vong_nhap:
+nhapktra:
     mov ah, 1
     int 21h
     cmp al, 13
-    je ket_thuc_nhap
-    sub al, '0'
-    xor cx, cx
-    mov cl, al
-    mov ax, dx
+    je ketthuc
+    sub al, '0' 
+    mov cl, al  
+    mov ax, dx  
+    mov bx, 10
     mul bx
     add ax, cx
     mov dx, ax
-    jmp vong_nhap
-ket_thuc_nhap:
+    jmp nhapktra
+ketthuc:
     ret
-nhap_thap_phan endp
+nhap endp
 
-xuat_he_16 proc
+inso16 proc
     mov bx, 16
     xor cx, cx
-chia_he_16:
+chia16:
     xor dx, dx
     div bx
     push dx
     inc cx
     cmp ax, 0
-    jne chia_he_16
-
-hien_ky_tu_hex:
+    jne chia16
+hienthi1:
     pop dx
     cmp dl, 9
-    jbe la_so_hex
-    add dl, 55        ; A = 65 -> 10 + 55
-    jmp in_ky_tu
-
-la_so_hex:
+    jbe laso
+    add dl, 55
+    jmp inkytu
+laso:
     add dl, '0'
-
-in_ky_tu:
+inkytu:
     mov ah, 2
     int 21h
-    loop hien_ky_tu_hex
-    ret
-xuat_he_16 endp
+    loop inkytu
+ret
+inso16 endp
 
-xuat_he_2 proc
+inso2 proc
     mov bx, 2
     xor cx, cx
-chia_he_2:
+chia2:
     xor dx, dx
     div bx
     push dx
     inc cx
     cmp ax, 0
-    jne chia_he_2
-
-hien_ky_tu_nhi_phan:
+    jne chia2
+hienthi2:
     pop dx
     add dl, '0'
     mov ah, 2
     int 21h
-    loop hien_ky_tu_nhi_phan
-    ret
-xuat_he_2 endp
-
+    loop hienthi2
+ret
+inso2 endp
 end main
+    
+  
