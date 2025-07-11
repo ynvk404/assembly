@@ -7,7 +7,7 @@ endm
 .model small
 .stack 100h
 .data
-    msg_nhap db 'Nhap so n (< 8) = $'
+    msg_nhap db 'Nhap so n <= 8 = $'
     msg_kq   db 10, 13, 'Ket qua n! = $'
     b        dw 10
     n        dw ?     
@@ -68,8 +68,7 @@ nhap endp
 
 in_so proc
     cmp ax, 0
-    jne in
-
+    jne tieptuc
     mov dl, '1'
     mov ah, 2
     int 21h
